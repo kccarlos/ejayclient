@@ -252,9 +252,9 @@ class NewProduct extends Component {
                 this.setState({longitude: position.coords.longitude})
 
             }, (error) => {
-                console.log(error.message)
-                this.setState({errorMsg : [error.message]})
-                this.handleShow()
+                // console.log(error.message)
+                // this.setState({errorMsg : [error.message]})
+                // this.handleShow()
                 console.log('Something went wrong getting your position!')
             })
         }
@@ -352,6 +352,9 @@ class NewProduct extends Component {
                                                                     <option value="true">Yes</option>
                                                                     <option selected value="false">No</option>
                                                                 </select>
+                                                                <div className="form-text">
+                                                                    Your product is set to available for delivery by default
+                                                                </div>
                                                             </label>
                                                         </div>
                                                         <div className="mb-3">
@@ -437,18 +440,19 @@ class NewProduct extends Component {
                                                 </div>
 
                                                 <Modal show={this.state.show} onHide={this.handleClose}>
-
-                                                    {this.state.resState === 401 ?
-                                                        <Modal.Body>401 Unauthorized: You are not a seller
-                                                            yet</Modal.Body> : this.state.resState === 400 ?
-                                                            <Modal.Body> Error <br/>
-                                                                {this.state.errorMsg[0]} </Modal.Body>
-                                                            : this.state.resState === '' ?
-                                                                <Modal.Body> Error <br/>
-                                                                    {this.state.errorMsg} </Modal.Body> :
+                                                    {/*{this.state.resState === 401 ?*/}
+                                                    {/*    <Modal.Body>401 Unauthorized: You are not a seller*/}
+                                                    {/*        yet</Modal.Body> : this.state.resState === 400 ?*/}
+                                                    {/*        <Modal.Body> Error <br/>*/}
+                                                    {/*            {this.state.errorMsg[0]} </Modal.Body>*/}
+                                                    {/*        : this.state.resState === '' ?*/}
+                                                    {/*            <Modal.Body> Error <br/>*/}
+                                                    {/*                {this.state.errorMsg} </Modal.Body> :*/}
                                                             <Modal.Body>Woohoo, you have submitted a
-                                                                product {this.state.title}!</Modal.Body>
-                                                    }
+                                                                product {this.state.title}!
+                                                            Note: Product is set to available for delivery by default
+                                                            </Modal.Body>
+                                                    {/*}*/}
                                                     <Modal.Footer>
 
                                                         <Button variant="primary" data-bs-dismiss="modal" onClick={() => {

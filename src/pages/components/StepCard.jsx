@@ -14,10 +14,10 @@ import {getLocalStorage} from "../../utils/localStorage";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import PopInfo from "./PopInfo";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 // import ProgressiveImg from "./ProgressiveImg.png";
@@ -33,7 +33,7 @@ const Item = styled(Paper)(({theme}) => ({
 
 export default function StepCard(props) {
     const ActiveCard = () => {
-        const steps = ['Waiting for Approval', 'Transaction Approved', 'Confirm'];
+        const steps = ['Waiting for Approval', 'Transaction Approved', 'Completed'];
         const [rating, setRating] = useState(0);
         const [open, setOpen] = useState(false);
 
@@ -43,18 +43,18 @@ export default function StepCard(props) {
 
         const handleClose = (event, reason) => {
             if (reason === 'clickaway') {
-              return;
+                return;
             }
             setOpen(false);
-          };
+        };
 
         async function getRating() {
-            
+
             const response = await fetch(`${BACKEND_ADDR}/api/getOneRating?productID=${props.order._id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-auth-token": getLocalStorage('token') ,
+                    "x-auth-token": getLocalStorage('token'),
                 },
             });
             if (!response.ok) {
@@ -62,19 +62,19 @@ export default function StepCard(props) {
                 return;
             }
             const res = await response.json();
-            setRating( parseInt(res?.rating));
+            setRating(parseInt(res?.rating))
         }
 
 
         async function updateRating(newRating) {
             setRating(newRating);
-            const response = await fetch(`${BACKEND_ADDR }/api/updateRating`, {
+            const response = await fetch(`${BACKEND_ADDR}/api/updateRating`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "x-auth-token": getLocalStorage('token'),
                 },
-                body:JSON.stringify({
+                body: JSON.stringify({
                     productID: props.order._id,
                     ratingNumber: newRating,
                 })
@@ -87,6 +87,7 @@ export default function StepCard(props) {
         }
 
         const ratings = useMemo(() => {
+
             return (
                 <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                     <div> Your rating <PopInfo/> on the seller:</div>
@@ -96,13 +97,13 @@ export default function StepCard(props) {
 
                 </Stack>
             );
-        } ,[rating]);
+        }, [rating]);
 
-        useEffect( ()=>{
-            if (props.order.buyer !== undefined ) {
+        useEffect(() => {
+            if (props.order.buyer !== undefined) {
                 getRating();
             }
-        } ,[]);
+        }, []);
 
         return (
             <>  <Link to={`/product/${props.order._id}`}>
@@ -111,24 +112,23 @@ export default function StepCard(props) {
                 /></Link>
                 <p></p>
                 <p>Current Price: USD {props.order.price}</p>
-                <Stepper nonLinear activeStep={props.order.buyer === undefined ? 0 : 1}>
-                    {steps.map((label, index) => (
-                        <Step key={label} completed={props.order.buyer !== undefined} activeStep={() => {
-                            if (props.order.buyer === undefined) {
-                                return false;
-                            } else {
-                                if (props.order.conform) {
-                                    return 2;
-                                } else {
-                                    return 1;
-                                }
-                            }
-                        }}>
-                            <StepButton color="inherit">
-                                {label}
-                            </StepButton>
-                        </Step>
-                    ))}
+
+                <Stepper activeStep={
+                    props.order.status=="selling"?0:props.order.status=="completed"?2:1
+                }>
+
+                    {steps.map((label, index) => {
+                        return (
+
+                            <Step key={label}
+                            >
+                                <StepButton color="inherit">
+                                    {label}
+                                </StepButton>
+                            </Step>
+                        )
+
+                    })}
                 </Stepper>
                 <div>
                     {
@@ -143,7 +143,7 @@ export default function StepCard(props) {
                                 <Typography sx={{mt: 2, mb: 1}}>
                                     {/* Please contact the seller to start the offline transaction. */}
                                 </Typography>
-                                {ratings}
+                                {props.orde.status==="completed" && ratings}
                                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                                     <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                                         You've successfully rated your seller!
@@ -154,7 +154,8 @@ export default function StepCard(props) {
                     }
                 </div>
             </>
-        );
+        )
+            ;
     }
 
     const DenyCard = () => {
@@ -164,14 +165,14 @@ export default function StepCard(props) {
                 <img style={{width: 100, height: 100}} src={props.order.image} alt={props.order.image}
                     // placeholder={ProgressiveImg}
                 />
-                <Stepper nonLinear activeStep={1}>
-                    {steps.map((label, index) => (
-                        <Step key={label} completed={1}>
-                            <StepButton color="inherit">
-                                {label}
-                            </StepButton>
-                        </Step>
-                    ))}
+                <Stepper nonLinear activeStep={steps.map((label, index) => (
+                    <Step key={label} completed={1}>
+                        <StepButton color="inherit">
+                            {label}
+                        </StepButton>
+                    </Step>
+                ))}>
+
                 </Stepper>
                 <div>
                     {
@@ -180,10 +181,10 @@ export default function StepCard(props) {
                                 The product might be already sold out.
                             </Typography>
 
-                            </React.Fragment>
-                        }
-                    </div>
-                </>
+                        </React.Fragment>
+                    }
+                </div>
+            </>
         );
 
     }
