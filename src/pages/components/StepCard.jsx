@@ -143,7 +143,7 @@ export default function StepCard(props) {
                                 <Typography sx={{mt: 2, mb: 1}}>
                                     {/* Please contact the seller to start the offline transaction. */}
                                 </Typography>
-                                {props.orde.status==="completed" && ratings}
+                                {props.order.status==="completed" && ratings}
                                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                                     <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
                                         You've successfully rated your seller!

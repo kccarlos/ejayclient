@@ -513,7 +513,6 @@ function OrderPage(props) {
                                                                                     }}
                                                                                 >
                                                                                     <Box sx={{width: "100%"}}>
-                                                                                        {console.log(order)}
                                                                                         <StepCard
                                                                                             order={order}
                                                                                             userId={userID}
