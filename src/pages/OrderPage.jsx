@@ -544,8 +544,7 @@ function OrderPage(props) {
                                                                                         </Button>
                                                                                         <Button variant="outlined"
                                                                                                 // sx={{mr: 1}}
-                                                                                                disabled={order.status == "completed" ||
-                                                                                                          order.buyer === undefined}
+                                                                                                disabled={order.status !== "approved"}
 
                                                                                                 onClick={() => {
                                                                                                     setCrtProdID(order._id);
