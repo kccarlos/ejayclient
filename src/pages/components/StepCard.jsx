@@ -114,9 +114,8 @@ export default function StepCard(props) {
                 <p>Current Price: USD {props.order.price}</p>
 
                 <Stepper activeStep={
-                    props.order.status=="selling"?0:props.order.status=="completed"?2:1
+                    props.order.status=="completed"?2: props.order.status =='approved'? 1 : 0
                 }>
-
                     {steps.map((label, index) => {
                         return (
 
@@ -132,7 +131,7 @@ export default function StepCard(props) {
                 </Stepper>
                 <div>
                     {
-                        props.order.buyer === undefined ? (
+                        props.order.buyer === undefined && (props.order.status == 'pending' || props.order.status == 'selling')? (
                             <React.Fragment>
                                 <Typography sx={{mt: 2, mb: 1}}>
                                     Please wait for the seller's approval.
