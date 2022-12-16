@@ -457,10 +457,14 @@ class NewProduct extends Component {
 
                                                         <Button variant="primary" data-bs-dismiss="modal" onClick={() => {
                                                             this.handleClose()
-                                                            this.setState({errorMsg : ''})
-                                                            if (this.state.resState !=='' && this.state.resState !== 400 && this.state.resState !== 401){
-                                                                window.location.href = "/"
-                                                            }
+                                                            //this.setState({errorMsg : ''})
+                                                            // if (this.state.resState !=='' && this.state.resState !== 400 && this.state.resState !== 401){
+                                                            //     window.location.href = "/"
+                                                            // }
+                                                            console.log(this.state.resState)
+                                                            
+                                                            window.location.href = "/"
+
                                                         }
                                                         }>
                                                             Ok
