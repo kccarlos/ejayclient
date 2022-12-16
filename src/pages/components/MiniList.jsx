@@ -186,6 +186,7 @@ const BuyerDialog = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { onClose, selectedValue, open } = props;
+  const [price, setPrice] = useState(props.product.price);
   const potentialBuyers = props.potentialBuyers;
   const potentialBuyersAddresses = props.potentialBuyersAddresses;
   const [emails, setEmails] = useState([]);
@@ -267,7 +268,7 @@ const BuyerDialog = (props) => {
     setRows(
       updatedEmail.map((info, index) => createData(
         info.username,
-        potentialBuyersAddresses && potentialBuyersAddresses[index] ? potentialBuyersAddresses[index].totalPrice : 'N/A',
+        potentialBuyersAddresses && potentialBuyersAddresses[index] ? potentialBuyersAddresses[index].totalPrice : price,
         potentialBuyersAddresses && potentialBuyersAddresses[index] ? getDistance(productLocation, createCoordinate(potentialBuyersAddresses[index].latitude, potentialBuyersAddresses[index].longtitude)) * 0.00062 : 'N/A',
         info.buyerRating,
         info.bio,
@@ -347,7 +348,7 @@ const BuyerDialog = (props) => {
                               />
                             </ListItem>
                           </TableCell>
-                          <TableCell align="right">{row.price ? row.price : `N/A`}</TableCell>
+                          <TableCell align="right">{row.price ? row.price : price}</TableCell>
                           <TableCell align="right">{row.rating !== "N/A" ? row.rating + ' / 5' : 'N/A'}</TableCell>
                           <TableCell align="right">{row.distance !== "N/A" ? row.distance : 'N/A'}</TableCell>
                         </TableRow>
@@ -684,7 +685,7 @@ const MiniList = (props) => {
         </div>
         <div className="btncontainer" style={{ paddingTop: 20 }}>
         </div>
-        {status !== 'deleted' && status !== 'approved' && (<div className="text-center">
+        {status !== 'deleted' && status !== 'approved' && status !== 'completed' && (<div className="text-center">
           {potentialBuyers.length !== 0 ? (
             <div>
               <p className="fw-bolder">Congrats! Someone interests in your product! </p>
